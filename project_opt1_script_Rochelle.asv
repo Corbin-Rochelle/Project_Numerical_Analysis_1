@@ -1,0 +1,23 @@
+format long;
+func = @(x) x-exp(-x);
+
+% Iterated Inverse
+x_vec = [.3,.4,.5,.6];
+y_vec = func(x_vec);
+IIA = project_opt1_IIA_Rochelle(x_vec,y_vec)
+ii = @() project_opt1_IIA_Rochelle(x_vec,y_vec);
+IIA_time = timeit(ii)
+
+% Newton's Method
+dfunc = @(x) 1+exp(-x);
+guess = .45;
+tol = 10.^(-15);
+NM = NM_Diegel(guess,func,dfunc,tol,100)
+nm = @() NM_Diegel(guess,func,dfunc,tol,100);
+NM_timetimeit(nm)
+
+% Bisection Method
+bisect(func,0,1,tol,100)
+b = @() bisect(func,0,1,tol,100);
+timeit(b)
+
